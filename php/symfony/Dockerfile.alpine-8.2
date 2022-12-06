@@ -1,22 +1,22 @@
 FROM php:8.2.0RC6-zts-alpine3.16
 
-ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
+ENV PHP_OPCACHE_ENABLE="0" \
+    PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
     PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
     PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10" \
     PHP_TIMEZONE="America/Toronto"
 
-RUN apk add --update-cache \
+RUN apk add pcre-dev ${PHPIZE_DEPS} \
     && apk add icu-dev icu-data-full gnupg composer libpq-dev \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-install opcache \
     && docker-php-ext-install pdo pdo_pgsql
 
-# RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-#     && php composer-setup.php \
-#     && php -r "unlink('composer-setup.php');" \
-#     && mv composer.phar /usr/local/bin/composer 
+
 RUN apk add --no-cache bash
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
     && apk add symfony-cli
