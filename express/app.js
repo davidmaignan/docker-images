@@ -19,7 +19,7 @@ async function connect(){
 app.get('/', async (req, res) => {
     try{
         const client = await connect();
-        res.send('Hello World!' + client.host)
+        res.send('Hello World!' + client.connectionString)
     }catch(error){
         res.send('Error connection postgres ' + error)
         console.log(error)
