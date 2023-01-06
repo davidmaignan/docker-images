@@ -1,6 +1,20 @@
 # Express image
 
+Environment variables
+
+| key | value |
+| --- | ---   |
+| USER | david |
+| HOST | simple-express-db |
+| PASSWORD | secret_password |
+| DB | simple_express_db |
+
+
 ```bash
+# Test script
+USER=<user> HOST=<ip> PASSWORD=<password> DB=<db_name> node app.js
+USER=david HOST=172.17.0.2 PASSWORD=secret_password DB=simple_express_db node app.js
+
 # Create a postgres container
 docker run -d --name my-postgres-db -e POSTGRES_PASSWORD=postgres postgres
 
